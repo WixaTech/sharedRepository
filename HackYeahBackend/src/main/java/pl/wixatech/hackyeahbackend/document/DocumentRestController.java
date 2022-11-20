@@ -1,6 +1,7 @@
 package pl.wixatech.hackyeahbackend.document;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,13 +33,18 @@ public class DocumentRestController {
     final var document = documentService.getById(documentId);
     final var recentReport = documentService.getRecentReport(documentId);
     return new ReportDTO(recentReport.getId(), recentReport.isSuccess(), recentReport.getCreated(), recentReport.getErrorGroups(),
-        document.getDocumentMetadata());
+            document.getDocumentMetadata());
+  }
+
+  @DeleteMapping()
+  public void deleteAll() {
+    documentService.deleteAll();
   }
 
   private DocumentDTO convertToDocumentDTO(Document document) {
     String fileName = getFileName(document);
     return new DocumentDTO(document.getId(), document.getDocumentStatus(), document.getCreated(), fileName,
-        document.getReports());
+            document.getReports());
   }
 
   private String getFileName(Document document) {

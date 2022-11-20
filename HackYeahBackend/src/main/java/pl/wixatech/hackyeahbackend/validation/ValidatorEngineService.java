@@ -30,49 +30,51 @@ public class ValidatorEngineService {
     private final FileMetadataUpdaterService fileMetadataUpdaterService;
     private final FormatValidator formatValidator;
     public void execute(Document document) {
-        //TODO add validation for checking formats
-
-        ValidationResult firstValidate = formatValidator.validate(document);
-        if (!firstValidate.isValid()) {
-            documentService.addReportToDocument(document, List.of(firstValidate));
-            return;
-        }
-
-
-        List<ValidationResult> validationResults = validationPluginList.stream()
-            .sorted(Comparator.comparing(ValidationPlugin::getPriority))
-            .map(validationPlugin -> validationPlugin.validate(document))
-            .collect(Collectors.toList());
-
-        List<ValidationResult> validationResultsWithDocument;
-
-        // TODO: check if its restricted
-
-        try (PDDocument doc = findPdDocument(document)) {
-            if (doc == null) {
-                log.error("Document is null");
+        try {
+            ValidationResult firstValidate = formatValidator.validate(document);
+            if (!firstValidate.isValid()) {
+                documentService.addReportToDocument(document, List.of(firstValidate));
+                return;
             }
 
-            validationResultsWithDocument = validationWithDocPluginList.stream()
-                .sorted(Comparator.comparing(ValidationPluginWithInput::getPriority))
-                .map(validationPluginWithInput -> validationPluginWithInput.validate(doc))
-                .toList();
-            validationResults.addAll(validationResultsWithDocument);
 
-        } catch (IOException e) {
-            error(document);
-            return;
-        }
+            List<ValidationResult> validationResults = validationPluginList.stream()
+                    .sorted(Comparator.comparing(ValidationPlugin::getPriority))
+                    .map(validationPlugin -> validationPlugin.validate(document))
+                    .collect(Collectors.toList());
 
-        documentService.addReportToDocument(document, validationResults);
-        Document byId = documentService.getById(document.getId());
-        if (byId.getDocumentStatus().equals(DocumentStatus.VALID)) {
-            try (PDDocument doc = findPdDocument(byId)) {
-                documentService.addMetadataToDocument(byId, doc);
+            List<ValidationResult> validationResultsWithDocument;
+
+            // TODO: check if its restricted
+
+            try (PDDocument doc = findPdDocument(document)) {
+                if (doc == null) {
+                    log.error("Document is null");
+                }
+
+                validationResultsWithDocument = validationWithDocPluginList.stream()
+                        .sorted(Comparator.comparing(ValidationPluginWithInput::getPriority))
+                        .map(validationPluginWithInput -> validationPluginWithInput.validate(doc))
+                        .toList();
+                validationResults.addAll(validationResultsWithDocument);
+
             } catch (IOException e) {
-                e.printStackTrace();
+                error(document);
+                return;
             }
-            fileMetadataUpdaterService.updateMetadata(byId);
+
+            documentService.addReportToDocument(document, validationResults);
+            Document byId = documentService.getById(document.getId());
+            if (byId.getDocumentStatus().equals(DocumentStatus.VALID)) {
+                try (PDDocument doc = findPdDocument(byId)) {
+                    documentService.addMetadataToDocument(byId, doc);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                fileMetadataUpdaterService.updateMetadata(byId);
+            }
+        } catch (Exception ex) {
+            error(document);
         }
     }
 

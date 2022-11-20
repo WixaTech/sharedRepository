@@ -15,7 +15,6 @@ public class FormatValidator {
         String probeContentType = "";
         try {
             probeContentType = Files.probeContentType(Path.of(document.getFilePath()));
-            System.out.println(probeContentType);
         } catch (IOException e) {
             return ValidationResult.builder()
                     .valid(false)

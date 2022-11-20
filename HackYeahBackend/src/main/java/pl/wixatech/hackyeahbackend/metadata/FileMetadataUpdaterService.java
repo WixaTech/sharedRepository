@@ -24,6 +24,8 @@ import static pl.wixatech.hackyeahbackend.document.DocumentMetadataService.SENDE
 import static pl.wixatech.hackyeahbackend.document.DocumentMetadataService.SENDER_POST_CODE;
 import static pl.wixatech.hackyeahbackend.document.DocumentMetadataService.SENDER_STREET;
 import static pl.wixatech.hackyeahbackend.document.DocumentMetadataService.SENDER_SURNAME;
+import static pl.wixatech.hackyeahbackend.document.DocumentMetadataService.SIGNATURE_DATE;
+import static pl.wixatech.hackyeahbackend.document.DocumentMetadataService.SIGNATURE_EXTENSION;
 import static pl.wixatech.hackyeahbackend.document.DocumentMetadataService.UNP;
 
 @Service
@@ -62,7 +64,8 @@ public class FileMetadataUpdaterService {
             info.setCustomMetadataValue(CASE_NUMBER, documentMetadata.getOrDefault(CASE_NUMBER, ""));
 
             // TODO: podpis???
-            info.setCustomMetadataValue("signature_data", "test");
+            info.setCustomMetadataValue(SIGNATURE_EXTENSION, documentMetadata.getOrDefault(SIGNATURE_EXTENSION, ""));
+            info.setCustomMetadataValue(SIGNATURE_DATE, documentMetadata.getOrDefault(SIGNATURE_DATE, ""));
 
             doc.save(document.getFilePath());
             log.info("Metadata added to file: {}", document.getFilePath());

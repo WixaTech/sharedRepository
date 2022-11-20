@@ -15,6 +15,7 @@ import java.util.Set;
 
 import static pl.wixatech.hackyeahbackend.validation.plugin.document.FileParametersPlugin.FILE_PARAMS;
 import static pl.wixatech.hackyeahbackend.validation.plugin.document.FileParametersPlugin.FORMAT;
+import static pl.wixatech.hackyeahbackend.validation.plugin.document.NoFormsPlugin.FORM;
 
 @Slf4j
 @Component
@@ -96,7 +97,7 @@ public class ConfigInitBean {
                 .content(objectMapper.writeValueAsString("false"))
                 .validationFieldType(ValidationFieldType.BOOLEAN)
                 .build());
-        addConfig("form", validations);
+        addConfig(FORM, validations);
     }
 
     @SneakyThrows

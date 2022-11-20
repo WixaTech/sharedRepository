@@ -77,32 +77,6 @@ public class FileController {
                 .contentLength(file.length())
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(resource);
-//        File file = new File(byId.getFilePath());
-//        try {
-//            // get your file as InputStream
-//            InputStream is = new FileInputStream(file);
-//            // copy it to response's OutputStream
-//            org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
-//            response.setContentType("application/pdf");
-//            response.set
-//            response.flushBuffer();
-//        } catch (IOException ex) {
-//            log.info("Error writing file to output stream. Filename was '{}'", id, ex);
-//            throw new RuntimeException("IOError writing file to output stream");
-//        }
     }
 
 }
-
-//    ContentHandler textHandler;
-//    Metadata metadata;
-
-//            textHandler = new BodyContentHandler();
-//            metadata = new Metadata();
-//            PDFParser parser = new PDFParser();
-//            ParseContext context = new ParseContext();
-//            parser.parse(inputStream, textHandler, metadata, context);
-
-//        out.println("Title: " + metadata.get("title"));
-//        out.println("Author: " + metadata.get("Author"));
-//        documentService.saveDocument(metadata.get("dc:title"));

@@ -96,4 +96,9 @@ public class DocumentService {
   public void save(Document document) {
     documentRepository.save(document);
   }
+
+  public void deleteAll() {
+    documentRepository.deleteAll();
+
+  }
 }

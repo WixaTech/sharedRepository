@@ -3,11 +3,16 @@ package pl.wixatech.hackyeahbackend.document;
 import lombok.SneakyThrows;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature;
+import org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.springframework.stereotype.Service;
 
-import java.awt.Rectangle;
+import java.awt.*;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -31,19 +36,45 @@ public class DocumentMetadataService {
   public static final String CASE_NUMBER = "case_number";
 
   private static final Set<String> expectedFooterMetadata = Set.of("e-mail: ", "ePUAP ");
+  public static final String SIGNATURE_EXTENSION = "signature_extension";
+  public static final String SIGNATURE_DATE = "signature_date";
 
 
   public Map<String, String> getMetadataFromDoc(PDDocument pdfDocument) {
     Map<String, String> footerMetadata = extractMetadataFromFooter(pdfDocument);
     Map<String, String> headerMetadata = extractMetadataFromHeader(pdfDocument);
     Map<String, String> otherMetadata = extractOtherMetadata(pdfDocument);
+    Map<String, String> signatureMetadata = extractSignatureMetadata(pdfDocument);
 
     final var resultMetadata = new HashMap<String, String>();
     resultMetadata.putAll(footerMetadata);
     resultMetadata.putAll(headerMetadata);
     resultMetadata.putAll(otherMetadata);
+    resultMetadata.putAll(signatureMetadata);
 
     return resultMetadata;
+  }
+
+  private Map<String, String> extractSignatureMetadata(PDDocument pdfDocument) {
+    Map<String, String> toReturn = new HashMap<>();
+    try {
+      PDSignatureField pdSignatureField = pdfDocument.getSignatureFields().stream().findFirst().orElseThrow();
+      PDSignature value = pdSignatureField.getValue();
+      if (value == null) {
+        return new HashMap<>();
+      }
+      toReturn.put(SIGNATURE_EXTENSION, value.getSubFilter());
+      Calendar signDate = value.getSignDate();
+      if (signDate != null) {
+        Date time = signDate.getTime();
+        toReturn.put(SIGNATURE_DATE, time.toString());
+      }
+
+    } catch (IOException e) {
+      return new HashMap<>();
+    }
+
+    return toReturn;
   }
 
 
@@ -112,14 +143,20 @@ public class DocumentMetadataService {
     final var senderRectangle = new Rectangle(0, 230, 300, 80);
     final var senderText = extractTextFromRegion(pdfDocument, senderRectangle);
 
-    final var senderWithoutContact = senderText.replace(senderText, "Kontakt: ");
+    final var senderWithoutContact = senderText.replace("Kontakt: ", "");
     final var senderTextParts = senderWithoutContact.split("\n");
 
     final var senderMetadata = new HashMap<String, String>();
-    if (senderTextParts.length >= 2) {
-      senderMetadata.put(SENDER_NAME, senderTextParts[0]);
-      senderMetadata.put(SENDER_SURNAME, senderTextParts[1]);
+
+    if (senderTextParts.length >= 4) {
+      final var senderTextPartsExtract = senderTextParts[0].split(" ");
+
+      if (senderTextPartsExtract.length >= 2) {
+        senderMetadata.put(SENDER_NAME, senderTextPartsExtract[0]);
+        senderMetadata.put(SENDER_SURNAME, senderTextPartsExtract[1]);
+      }
     }
+
 
     return senderMetadata;
   }

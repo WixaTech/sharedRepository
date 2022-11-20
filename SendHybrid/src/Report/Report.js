@@ -103,14 +103,24 @@ function Report() {
                 </Typography>
               ))}
               {group.recoverable && (
-                <Button
-                  icon="build"
-                  size="small"
-                  variant="tertiary"
-                  onClick={repairFile}
-                >
-                  Repair file automatically
-                </Button>
+                <>
+                  <Button
+                    icon="build"
+                    size="small"
+                    variant="tertiary"
+                    onClick={repairFile}
+                  >
+                    Repair file automatically
+                  </Button>
+                  <Typography
+                    variant="label"
+                    margin={"8px 0"}
+                    color="neutral-140"
+                  >
+                    If you repair this file you will have to sign it again and
+                    reupload it.
+                  </Typography>
+                </>
               )}
             </div>
           ))}
