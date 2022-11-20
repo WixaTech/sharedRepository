@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  backend:
+    image: amazoncorretto:17-alpine-jdk
+    command: bash -c "cd /usr/src/myapp && java -jar LogiIn.jar"
+    ports:
+      - "8080:8080"
+
+  frontend:
+    image: ""
+    ports:
+      - "3000:3000"
