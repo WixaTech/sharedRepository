@@ -7,7 +7,8 @@ https://karolina.place/SendHybrid/
 * JDK17
 * Spring
 * Hibernate
-* PDDocument
+* PDFBox
+* Apache Tika
 * JavaScript
 * React
 
