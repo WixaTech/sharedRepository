@@ -2,6 +2,10 @@
 
 https://karolina.place/SendHybrid/
 
+# Video demo
+
+https://drive.google.com/file/d/1A8g7AGfIMdHwhtUKfT_rDxJxsgoYqJG0/view?usp=sharing
+
 # Frameworks, compilers, runtime environment, libraries
 
 * JDK17
