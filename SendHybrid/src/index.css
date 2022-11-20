@@ -1,0 +1,147 @@
+:root {
+  /* --primary-70: #b3535e;
+  --primary-90: #e66a79;
+  --primary-100: #ff7686;
+  --primary-140: #ffadb6;
+  --primary-170: #ffd6db;
+  --primary-180: #ffe4e7;
+  --primary-190: #fff1f3; */
+
+  --primary-70: #437396;
+  --primary-90: #5695c1;
+  --primary-100: #60a5d6;
+  --primary-140: #a0c9e6;
+  --primary-170: #cfe4f3;
+  --primary-180: #dfedf7;
+  --primary-190: #eff6fb;
+
+  --neutral-100: #474749;
+  --neutral-120: #6c6c6d;
+  --neutral-140: #919192;
+  --neutral-160: #b5b5b6;
+  --neutral-170: #d3d3d3;
+  --neutral-180: #ededed;
+  --neutral-190: #f8f8f8;
+  --neutral-200: #ffffff;
+
+  --red-100: #ee7575;
+  --red-190: #fdf1f1;
+
+  --orange-100: #f69a67;
+  --orange-190: #fef8f2;
+
+  --yellow-100: #facc2b;
+  --yellow-190: #fefcf2;
+
+  --lime-100: #cbdd63;
+  --lime-190: #fafdf4;
+
+  --green-100: #84ca7e;
+  --green-190: #e9f9e8;
+
+  --turquoise-100: #7edcc6;
+  --turquoise-190: #f4fcfa;
+
+  --blue-100: #8cb9da;
+  --blue-190: #f4f9fc;
+
+  --violet-100: #929edc;
+  --violet-190: #f4f5fc;
+
+  --purple-100: #d292dc;
+  --purple-190: #fcf4fa;
+
+  --pink-100: #f491b4;
+  --pink-190: #fef7f9;
+
+  --shadow-0: 0px 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-1: 0px 0px 3px rgba(0, 0, 0, 0.08), 0px 2px 4px rgba(0, 0, 0, 0.12);
+  --shadow-2: 0px 0px 3px rgba(0, 0, 0, 0.05), 0px 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-3: 0px 0px 3px rgba(0, 0, 0, 0.05), 0px 8px 24px rgba(0, 0, 0, 0.16);
+
+  --border-radius-0: 0px;
+  --border-radius-1: 4px;
+  --border-radius-2: 8px;
+  --border-radius-3: 16px;
+  --border-radius-4: 24px;
+
+  --backdrop: rgba(0, 0, 0, 0.75);
+
+  --z-index-below: -1;
+  --z-index-0: 0;
+  --z-index-1: 1;
+  --z-index-inf: 2147483647;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  padding: 0;
+}
+
+img,
+svg {
+  display: block;
+}
+
+button {
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: var(--background);
+  color: var(--neutral-100);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--neutral-180);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--neutral-160);
+  border-radius: 4px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--neutral-140);
+}
